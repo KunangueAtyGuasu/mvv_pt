@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8' />
+    <title>Mapeamento de Violência</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+    <!--Photo Sphere Viewer (https://photo-sphere-viewer.js.org/) for displaying 360 photos, licensed under MIT License-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/photo-sphere-viewer.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uevent@2/browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/photo-sphere-viewer.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .mapboxgl-popup-content {
+            text-align: left;
+            font-family: 'Open Sans', sans-serif;
+            width: 300px;
+            box-shadow: 3px 3px 2px #69411d;
+            background-color: #ffffff;
+            opacity: 0.85;
+        }
+
+        #category_popup {
+            text-align: center;
+        }
+
+        #viewer {
+            width: 300px;
+            height: 40vh;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+
+<script>
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoidWNsbWFsIiwiYSI6ImNrczRjeDdvcDJtY3cyd3M3ZDE2N2dxdnYifQ.abnRmulcY5B6-xFJBqzklQ';
+
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/uclmal/cksvyew5y290u17jylhn6rhv1',
+        center: [-56.428264, -21.106186],
+        pitch: 26.97,
+        bearing: 0,
+        zoom: 6.15
+    });
+
+    map.addControl(new mapboxgl.NavigationControl());
+    // Not working with full screen 360 photos..
+    //map.addControl(new mapboxgl.FullscreenControl());
+
+    var selectedStateId = null;
+
+    const popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+
+    map.on('load', () => {
+        map.addSource('category_circle', {
+            type: 'geojson',
+            data: 'https://api.mapbox.com/datasets/v1/uclmal/ckt3h4rkx01zk21t3iyv01m9v/features?access_token=pk.eyJ1IjoidWNsbWFsIiwiYSI6ImNrczRjeDdvcDJtY3cyd3M3ZDE2N2dxdnYifQ.abnRmulcY5B6-xFJBqzklQ',
+            generateId: true
+        });
+
+        map.addSource('municipality_density', {
+            type: 'geojson',
+            data: 'https://api.mapbox.com/datasets/v1/uclmal/cksvw8hn51t1o20s4bzxl6gro/features?access_token=pk.eyJ1IjoidWNsbWFsIiwiYSI6ImNrczRjeDdvcDJtY3cyd3M3ZDE2N2dxdnYifQ.abnRmulcY5B6-xFJBqzklQ',
+            generateId: true,
+            attribution: 'Basemap data from <a href="https://www.ibge.gov.br/en/home-eng.html">Instituto Brasileiro de Geografia e Estatística</a>'
+        });
+
+        map.addSource('photo_point', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': [
+                                {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-54.695815, -22.216845]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/CornField-Dry-TallVID_2019_07_12_09_27_13_milharal_seco_20_07_08_09_28_46_0.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-55.196108, -22.572497]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/Gravestone-frontVID_2019_05_19_11_44_14OK_20_07_08_09_11_36_12.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-55.193495, -22.590251]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/Gravestone-rearVID_2019_05_19_11_37_03OK_20_07_08_09_06_42_7.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-55.038859, -22.195655]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/CornField-Dry-Short.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-55.365952, -22.111117]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/CornField-ShortVID_2019_05_22_10_52_43_20_07_08_08_17_01_9.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-55.131270, -21.968757]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/CornField-Tall1VID_2019_05_22_10_40_33_20_07_08_08_07_13_0.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-56.613017, -21.945312]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/CornField-Tall2VID_2019_05_22_10_46_52_20_07_08_08_14_53_4.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-57.662945, -21.679007]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/CornField-Tall3VID_2019_05_22_10_57_26OK_20_07_08_08_18_53_5.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-56.939185, -20.707875]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/CornField-Tall4VID_2019_05_22_11_04_24OK_20_07_08_08_43_18_0.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-55.060646, -22.141310]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/RoadsideCampVID_2019_05_20_10_18_47OK_20_07_08_09_24_09_0.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-54.808734, -23.117172]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/Soil-JustplantedVID_2019_05_18_07_07_50OK_20_07_08_09_00_13_6.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-54.957847, -23.444798]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/SoyaField-TallVID_2019_05_22_14_09_28_20_07_08_08_46_45_0.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-55.430659, -23.333084]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/SugarCane-ShortVID_2019_05_18_07_13_39_20_07_08_09_03_23_28.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-54.971615, -23.757239]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/SugarCane-TallVID_2019_05_18_07_15_08OK_20_07_08_08_58_17_10.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-55.144041, -23.545027]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/Village-PirajuiVID_2019_07_12_17_00_48_pirajui_4_20_07_08_09_37_50_1.png',
+                                    'audio': ''
+                                }
+                            },
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-56.260000, -21.998156]
+                                    },
+                                'properties': {
+                                    'description': '<div id="viewer"></div>',
+                                    'path': 'images/Village-RezadorJulioVID_2019_05_19_15_23_12OkRezador_20_07_08_09_21_22_4.png',
+                                    'audio': ''
+                                }
+                            }
+                        ]}
+        });
+
+
+        map.loadImage('icons/symbol1.png', function (error, image) {
+            if (error) throw error;
+            map.addImage('custom-marker', image);
+
+            map.addSource('report_point', {
+                type: 'geojson',
+                data: 'https://api.mapbox.com/datasets/v1/uclmal/ckt4ljxux05pi20o6a9hvb8fe/features?access_token=pk.eyJ1IjoidWNsbWFsIiwiYSI6ImNrczRjeDdvcDJtY3cyd3M3ZDE2N2dxdnYifQ.abnRmulcY5B6-xFJBqzklQ'
+            });
+
+            map.addLayer({
+                'id': 'reportsData',
+                'type': 'symbol',
+                'source': 'report_point',
+                'layout':{
+                    'icon-image': 'custom-marker',
+                    'icon-size': 0.08
+                }
+            });
+
+        });
+
+        map.loadImage('icons/symbol360.png', function (error, image) {
+            if (error) throw error;
+            map.addImage('custom-marker360', image);
+
+            map.addLayer({
+                'id': 'photoData',
+                'type': 'symbol',
+                'source': 'photo_point',
+                'minzoom': 6.2,
+                'layout':{
+                        'icon-image': 'custom-marker360',
+                        'icon-size': 0.04
+                    }
+            });
+
+        });
+
+        map.addLayer({
+            'id': 'category_data',
+            'type': 'fill-extrusion',
+            'source': 'category_circle',
+            'paint': {
+                'fill-extrusion-height': ["*", 240, ['get', 'Count_']],
+                'fill-extrusion-color': [
+                    'case',
+                    ['boolean', ['feature-state', 'selected'], false],
+                    '#FFFFFF',
+                    '#d93f44'
+                    ],
+                'fill-extrusion-opacity': 0.7
+            }
+        });
+
+        map.addLayer({
+            'id': 'municipality_data',
+            'type': 'line',
+            'source': 'municipality_density',
+            'filter': ['>', ["to-number",['get', 'density']], 0],
+            'paint': {
+                'line-color': '#adacac',
+                'line-width': 0.8,
+                'line-opacity': 0.8
+            }
+        });
+
+        // Update feature state when clicking on features
+        map.on('click', 'category_data', (e) => {
+            e.preventDefault();
+            if (e.features.length > 0) {
+                if (selectedStateId !== null) {
+                    map.setFeatureState(
+                        { source: 'category_circle', id: selectedStateId },
+                        { selected: false }
+                    );
+                }
+                selectedStateId = e.features[0].id;
+                map.setFeatureState(
+                    { source: 'category_circle', id: selectedStateId },
+                    { selected: true }
+                    );
+                const coordinates = e.features[0].geometry.coordinates[0][0].slice();
+                const category = e.features[0].properties.Category;
+                const cnt = e.features[0].properties.Count_;
+                popup.setLngLat(coordinates).setHTML('<div id="category_popup"><p><b>' + category + '</b> </p><p>' + "Número de Incidentes: " + cnt + '</p></div>').addTo(map);
+                }
+        });
+
+        map.on('click', 'reportsData', (e) => {
+            e.preventDefault();
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const description = e.features[0].properties.description;
+
+            popup.setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+            });
+
+        map.on('click', 'photoData', (e) => {
+            e.preventDefault();
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const description = e.features[0].properties.description;
+            const path = e.features[0].properties.path;
+            const audio = e.features[0].properties.audio;
+
+            if(audio === ''){
+                popup.setLngLat(coordinates)
+                    .setHTML(description)
+                    .addTo(map);
+            }else{
+                popup.setLngLat(coordinates)
+                    .setHTML(description + '<br><audio controls autoplay><source src=' + audio + ' type="audio/mpeg"></audio>')
+                    .addTo(map);
+            }
+
+            var viewer = new PhotoSphereViewer.Viewer({
+                container: document.querySelector('#viewer'),
+                panorama: path,
+                autorotateSpeed: '0.5rpm',
+                navbar: [
+                    'autorotate',
+                    'zoom',
+                    'caption',
+                    'fullscreen'
+                    ]
+            });
+        });
+
+        // Click anywhere on the map to clear highlight and pop-up
+        map.on('click', (e) => {
+            if (e.defaultPrevented === false) {
+                if (selectedStateId !== null) {
+                    map.setFeatureState(
+                        { source: 'category_circle', id: selectedStateId },
+                        { selected: false }
+                    );
+                    }
+                    selectedStateId = null;
+                    popup.remove();
+                }
+            });
+
+    });
+
+
+
+</script>
+
+</body>
+</html>

@@ -394,7 +394,7 @@
                 const category = e.features[0].properties.Category;
                 const definition = e.features[0].properties.Definition;
                 const cnt = e.features[0].properties.Count_;
-                popup.setLngLat(coordinates).setHTML('<div id="category_popup"><p><b>' + category + '</b> </p> <p>' + definition + '</p><p>' + "Número de Incidentes: " + cnt + '</p></div>').addTo(map);
+                popup.setLngLat(coordinates).setHTML('<div id="category_popup"><p><b>' + category + '</b> </p> <p style="text-align:left;">' + definition + '</p><p>' + "Número de Incidentes: " + cnt + '</p></div>').addTo(map);
                 }
         });
 

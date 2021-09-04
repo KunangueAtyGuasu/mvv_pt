@@ -32,14 +32,14 @@
             box-shadow: 3px 3px 2px #69411d;
             background-color: #ffffff;
             opacity: 0.85;
+        }
+
+        #report_popup {
             overflow-y : auto;
             height:350px;
         }
-
         #category_popup {
             text-align: center;
-            height: 100%; 
-            overflow: hidden;
         }
 
         #viewer {
@@ -412,7 +412,7 @@
             const path = e.features[0].properties.path;
 
             popup.setLngLat(coordinates)
-                .setHTML("<iframe width='auto' height='250px' src='" + path + "' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>" + description)
+                .setHTML("<div id='report_popup'><iframe width='auto' height='250px' src='" + path + "' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>" + description + "</div>")
                 .addTo(map);
             });
 

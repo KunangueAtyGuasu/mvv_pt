@@ -401,9 +401,10 @@
             e.preventDefault();
             const coordinates = e.features[0].geometry.coordinates.slice();
             const description = e.features[0].properties.description;
+            const path = e.features[0].properties.path;
 
             popup.setLngLat(coordinates)
-                .setHTML(description)
+                .setHTML(description + "<iframe width='auto' height='250px' src='" + path + "' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>")
                 .addTo(map);
             });
 

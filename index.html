@@ -408,7 +408,7 @@
             const path = e.features[0].properties.path;
 
             popup.setLngLat(coordinates)
-                .setHTML('<div style = "overflow-y : auto; height:250px>' + description + "</div><iframe width='auto' height='250px' src='" + path + "' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>")
+                .setHTML('<div style = "overflow-y : auto; height:500px>' + description + "<iframe width='auto' height='250px' src='" + path + "' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>")
                 .addTo(map);
             });
 

@@ -392,7 +392,7 @@
                     );
                 const coordinates = e.features[0].geometry.coordinates[0][0].slice();
                 const category = e.features[0].properties.Category;
-                const definition = e.features[0].properties.Definition;
+                var definition = e.features[0].properties.Definition;
                 if(definition === undefined){
                     definition = '';
                 }

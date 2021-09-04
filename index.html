@@ -393,9 +393,9 @@
                 const coordinates = e.features[0].geometry.coordinates[0][0].slice();
                 const category = e.features[0].properties.Category;
                 const definition = e.features[0].properties.Definition;
-                if(definition === undefined{
+                if(definition === undefined){
                     definition = '';
-                })
+                }
                 const cnt = e.features[0].properties.Count_;
                 popup.setLngLat(coordinates).setHTML('<div id="category_popup"><p><b>' + category + '</b> </p> <p style="text-align:left;">' + definition + '</p><p>' + "Número de Incidentes: " + cnt + '</p></div>').addTo(map);
                 }

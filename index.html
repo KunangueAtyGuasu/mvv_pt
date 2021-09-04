@@ -76,7 +76,7 @@
     map.on('load', () => {
         map.addSource('category_circle', {
             type: 'geojson',
-            data: 'https://api.mapbox.com/datasets/v1/uclmal/ckt3h4rkx01zk21t3iyv01m9v/features?access_token=pk.eyJ1IjoidWNsbWFsIiwiYSI6ImNrczRjeDdvcDJtY3cyd3M3ZDE2N2dxdnYifQ.abnRmulcY5B6-xFJBqzklQ',
+            data: 'https://api.mapbox.com/datasets/v1/uclmal/ckt6d3rlv1awp2bn1jvta9bpf/features?access_token=pk.eyJ1IjoidWNsbWFsIiwiYSI6ImNrczRjeDdvcDJtY3cyd3M3ZDE2N2dxdnYifQ.abnRmulcY5B6-xFJBqzklQ',
             generateId: true
         });
 
@@ -392,8 +392,9 @@
                     );
                 const coordinates = e.features[0].geometry.coordinates[0][0].slice();
                 const category = e.features[0].properties.Category;
+                const definition = e.features[0].properties.Definition;
                 const cnt = e.features[0].properties.Count_;
-                popup.setLngLat(coordinates).setHTML('<div id="category_popup"><p><b>' + category + '</b> </p><p>' + "Número de Incidentes: " + cnt + '</p></div>').addTo(map);
+                popup.setLngLat(coordinates).setHTML('<div id="category_popup"><p><b>' + category + '</b> </p> <p>' + definition + '</p><p>' + "Número de Incidentes: " + cnt + '</p></div>').addTo(map);
                 }
         });
 

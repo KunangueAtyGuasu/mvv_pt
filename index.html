@@ -294,7 +294,7 @@
 
             map.addSource('report_point', {
                 type: 'geojson',
-                data: 'https://api.mapbox.com/datasets/v1/uclmal/ckt4ljxux05pi20o6a9hvb8fe/features?access_token=pk.eyJ1IjoidWNsbWFsIiwiYSI6ImNrczRjeDdvcDJtY3cyd3M3ZDE2N2dxdnYifQ.abnRmulcY5B6-xFJBqzklQ'
+                data: 'https://api.mapbox.com/datasets/v1/uclmal/ckt5w2wnh0gy128mgh4xr33y8/features?access_token=pk.eyJ1IjoidWNsbWFsIiwiYSI6ImNrczRjeDdvcDJtY3cyd3M3ZDE2N2dxdnYifQ.abnRmulcY5B6-xFJBqzklQ'
             });
 
             map.addLayer({
@@ -303,6 +303,27 @@
                 'source': 'report_point',
                 'layout':{
                     'icon-image': 'custom-marker',
+                    'icon-size': 0.08
+                }
+            });
+
+        });
+
+        map.loadImage('icons/symbolgrey.png', function (error, image) {
+            if (error) throw error;
+            map.addImage('custom-marker-grey', image);
+
+            map.addSource('report_point_grey', {
+                type: 'geojson',
+                data: 'https://api.mapbox.com/datasets/v1/uclmal/ckt5w2loy15wn28o8tu5fjmld/features?access_token=pk.eyJ1IjoidWNsbWFsIiwiYSI6ImNrczRjeDdvcDJtY3cyd3M3ZDE2N2dxdnYifQ.abnRmulcY5B6-xFJBqzklQ'
+            });
+
+            map.addLayer({
+                'id': 'reportsgreyData',
+                'type': 'symbol',
+                'source': 'report_point_grey',
+                'layout':{
+                    'icon-image': 'custom-marker-grey',
                     'icon-size': 0.08
                 }
             });

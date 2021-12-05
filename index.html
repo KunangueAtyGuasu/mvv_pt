@@ -351,6 +351,27 @@
 
         });
 
+        map.loadImage('icons/ceremonyhouse.png', function (error, image) {
+            if (error) throw error;
+            map.addImage('custom-marker-house', image);
+
+            map.addSource('ceremonyhouse_point', {
+                type: 'geojson',
+                data: 'https://api.mapbox.com/datasets/v1/uclmal/ckwtoy6u32loq22qz1xxuzlqm/features?access_token=pk.eyJ1IjoidWNsbWFsIiwiYSI6ImNrczRjeDdvcDJtY3cyd3M3ZDE2N2dxdnYifQ.abnRmulcY5B6-xFJBqzklQ'
+            });
+
+            map.addLayer({
+                'id': 'ceremonyhouseData',
+                'type': 'symbol',
+                'source': 'ceremonyhouse_point',
+                'layout':{
+                    'icon-image': 'custom-marker-house',
+                    'icon-size': 0.03
+                }
+            });
+
+        });
+
         map.addLayer({
             'id': 'category_data',
             'type': 'fill-extrusion',
@@ -445,6 +466,17 @@
                     ]
             });
         });
+
+        map.on('click', 'ceremonyhouseData', (e) => {
+            e.preventDefault();
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const description = e.features[0].properties.description;
+            const path = e.features[0].properties.path;
+
+            popup.setLngLat(coordinates)
+                .setHTML("<div><iframe width='auto' height='250px' src='" + path + "' title='YouTube video player' frameborder='0' allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>")
+                .addTo(map);
+            });
 
         // Click anywhere on the map to clear highlight and pop-up
         map.on('click', (e) => {

@@ -474,7 +474,7 @@
             const path = e.features[0].properties.path;
 
             popup.setLngLat(coordinates)
-                .setHTML("<div><iframe width='auto' height='250px' src='" + path + "' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>")
+                .setHTML("<div><iframe width='auto' height='250px' src='" + path + "' title='YouTube video player' frameborder='0' allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>")
                 .addTo(map);
             });
 

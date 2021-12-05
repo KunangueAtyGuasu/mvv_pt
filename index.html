@@ -366,7 +366,7 @@
                 'source': 'ceremonyhouse_point',
                 'layout':{
                     'icon-image': 'custom-marker-house',
-                    'icon-size': 0.02
+                    'icon-size': 0.04
                 }
             });
 
@@ -466,6 +466,17 @@
                     ]
             });
         });
+
+        map.on('click', 'ceremonyhouseData', (e) => {
+            e.preventDefault();
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const description = e.features[0].properties.description;
+            const path = e.features[0].properties.path;
+
+            popup.setLngLat(coordinates)
+                .setHTML("<div id='report_popup'><iframe width='auto' height='250px' src='" + path + "' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>" + description + "</div>")
+                .addTo(map);
+            });
 
         // Click anywhere on the map to clear highlight and pop-up
         map.on('click', (e) => {

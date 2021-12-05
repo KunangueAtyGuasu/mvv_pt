@@ -366,7 +366,7 @@
                 'source': 'ceremonyhouse_point',
                 'layout':{
                     'icon-image': 'custom-marker-house',
-                    'icon-size': 0.04
+                    'icon-size': 0.03
                 }
             });
 
@@ -474,7 +474,7 @@
             const path = e.features[0].properties.path;
 
             popup.setLngLat(coordinates)
-                .setHTML("<div id='report_popup'><iframe width='auto' height='250px' src='" + path + "' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>" + description + "</div>")
+                .setHTML("<div><iframe width='auto' height='250px' src='" + path + "' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>")
                 .addTo(map);
             });
 

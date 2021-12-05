@@ -351,6 +351,27 @@
 
         });
 
+        map.loadImage('icons/ceremonyhouse.svg', function (error, image) {
+            if (error) throw error;
+            map.addImage('custom-marker', image);
+
+            map.addSource('ceremonyhouse_point', {
+                type: 'geojson',
+                data: 'https://api.mapbox.com/datasets/v1/uclmal/ckwtoy6u32loq22qz1xxuzlqm/features?access_token=pk.eyJ1IjoidWNsbWFsIiwiYSI6ImNrczRjeDdvcDJtY3cyd3M3ZDE2N2dxdnYifQ.abnRmulcY5B6-xFJBqzklQ'
+            });
+
+            map.addLayer({
+                'id': 'ceremonyhouseData',
+                'type': 'symbol',
+                'source': 'ceremonyhouse_point',
+                'layout':{
+                    'icon-image': 'custom-marker',
+                    'icon-size': 0.08
+                }
+            });
+
+        });
+
         map.addLayer({
             'id': 'category_data',
             'type': 'fill-extrusion',

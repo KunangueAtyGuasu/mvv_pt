@@ -353,7 +353,7 @@
 
         map.loadImage('icons/ceremonyhouse.png', function (error, image) {
             if (error) throw error;
-            map.addImage('custom-marker', image);
+            map.addImage('custom-marker-house', image);
 
             map.addSource('ceremonyhouse_point', {
                 type: 'geojson',
@@ -365,8 +365,8 @@
                 'type': 'symbol',
                 'source': 'ceremonyhouse_point',
                 'layout':{
-                    'icon-image': 'custom-marker',
-                    'icon-size': 0.25
+                    'icon-image': 'custom-marker-house',
+                    'icon-size': 0.08
                 }
             });
 

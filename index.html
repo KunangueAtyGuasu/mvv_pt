@@ -366,7 +366,7 @@
                 'source': 'ceremonyhouse_point',
                 'layout':{
                     'icon-image': 'custom-marker-house',
-                    'icon-size': 0.03
+                    'icon-size': 0.04
                 }
             });
 
@@ -473,9 +473,11 @@
             const description = e.features[0].properties.description;
             const path = e.features[0].properties.path;
 
-            popup.setLngLat(coordinates)
-                .setHTML("<div><iframe width='auto' height='250px' src='" + path + "' title='YouTube video player' frameborder='0' allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>")
-                .addTo(map);
+            if(path){
+                popup.setLngLat(coordinates)
+                    .setHTML("<div><iframe width='auto' height='250px' src='" + path + "' title='YouTube video player' frameborder='0' allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>")
+                    .addTo(map);
+                }
             });
 
         // Click anywhere on the map to clear highlight and pop-up
